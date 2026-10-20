@@ -1,1 +1,36 @@
-ChiperRoom — room chat real-time terenkripsi end-to-end.
+# ChiperRoom — Panduan Deploy
+
+## 1. Deploy ke Render.com (gratis)
+
+1. Buka https://render.com → Sign in with GitHub
+2. New → Web Service → pilih repo ini
+3. Pengaturan:
+   - Build Command: `npm install`
+   - Start Command: `npm start`
+   - Instance Type: Free
+4. Deploy → catat URL (mis. https://chiperroom-abc.onrender.com)
+   Frontend + backend otomatis ter-host di URL yang sama.
+
+## 2. Keep-alive dengan UptimeRobot (gratis, opsional)
+
+1. Daftar di https://uptimerobot.com
+2. Add New Monitor → HTTP(s) → URL server Render → interval 5 menit
+
+## 3. Build APK (gratis)
+
+1. Di GitHub web: buka file `build-apk.yml` → klik pensil (Edit) → ubah nama file
+   di atas editor dari `build-apk.yml` menjadi `.github/workflows/build-apk.yml` → Commit
+2. Tab Actions → pilih "Build APK" → Run workflow
+3. Selesai, unduh artifact `chiperroom-debug-apk` (berisi app-debug.apk)
+
+## 4. Arahkan APK ke server Render
+
+Sebelum menjalankan workflow, edit `public/index.html`:
+cari `window.CIPHERROOM_SERVER_URL = "";` dan isi dengan URL Render, contoh:
+`window.CIPHERROOM_SERVER_URL = "https://chiperroom-abc.onrender.com";`
+
+## Catatan
+
+- Instance gratis Render tidur setelah 15 menit tanpa trafik (bangun ~30 detik);
+  UptimeRobot mencegahnya.
+- APK debug cukup untuk dipakai sendiri; untuk Play Store perlu build release + signing.
